@@ -68,6 +68,8 @@ cd djangowebmarket
 
 2. **Создайте файл .env в корне проекта:**
 ```env
+SECRET_KEY =
+
 POSTGRES_DB=webmarket
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
