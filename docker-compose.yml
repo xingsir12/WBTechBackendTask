@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: webmarket
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    build: .
+    command: >
+      sh -c "sleep 5 &&  # Даем время базе данных запуститься
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8081"
+    volumes:
+      - .:/app
+    ports:
+      - "8081:8081"
+    environment:
+      SECRET_KEY: django-insecure-your-secret-key-here
+      POSTGRES_DB: webmarket
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
